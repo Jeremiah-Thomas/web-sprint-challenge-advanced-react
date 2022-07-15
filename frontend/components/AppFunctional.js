@@ -144,7 +144,7 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">{getXYMessage()}</h3>
-        <h3 id="steps">
+        <h3 id="steps" data-testid="grid">
           You moved {steps} {steps === 1 ? "time" : "times"}
         </h3>
       </div>
@@ -178,12 +178,13 @@ export default function AppFunctional(props) {
       <form onSubmit={onSubmit}>
         <input
           id="email"
+          data-testid="email"
           type="email"
           placeholder="type email"
           onChange={onChange}
           value={email}
         ></input>
-        <input id="submit" type="submit"></input>
+        <input id="submit" type="submit" data-testid="submit"></input>
       </form>
     </div>
   );
