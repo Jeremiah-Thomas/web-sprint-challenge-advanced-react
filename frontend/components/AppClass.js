@@ -75,32 +75,44 @@ export default class AppClass extends React.Component {
       (direction === "up" && this.state.index === 1) ||
       (direction === "up" && this.state.index === 2)
     ) {
+      this.setState({ message: "You can't go up" });
       return this.state.index;
     } else if (
       (direction === "left" && this.state.index === 0) ||
       (direction === "left" && this.state.index === 3) ||
       (direction === "left" && this.state.index === 6)
     ) {
+      this.setState({ message: "You can't go left" });
       return this.state.index;
     } else if (
       (direction === "down" && this.state.index === 6) ||
       (direction === "down" && this.state.index === 7) ||
       (direction === "down" && this.state.index === 8)
     ) {
+      this.setState({ message: "You can't go down" });
       return this.state.index;
     } else if (
       (direction === "right" && this.state.index === 2) ||
       (direction === "right" && this.state.index === 5) ||
       (direction === "right" && this.state.index === 8)
     ) {
+      this.setState({ message: "You can't go right" });
       return this.state.index;
     } else if (direction === "up") {
+      this.setState({ message: initialMessage });
+      this.setState({ steps: this.state.steps + 1 });
       return this.state.index - 3;
     } else if (direction === "left") {
+      this.setState({ message: initialMessage });
+      this.setState({ steps: this.state.steps + 1 });
       return this.state.index - 1;
     } else if (direction === "down") {
+      this.setState({ message: initialMessage });
+      this.setState({ steps: this.state.steps + 1 });
       return this.state.index + 3;
     } else if (direction === "right") {
+      this.setState({ message: initialMessage });
+      this.setState({ steps: this.state.steps + 1 });
       return this.state.index + 1;
     }
   };
@@ -109,8 +121,6 @@ export default class AppClass extends React.Component {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     this.setState({ index: this.getNextIndex(evt.target.id) });
-    this.setState({ steps: this.state.steps + 1 });
-    console.log(this.state.index);
   };
 
   onChange = (evt) => {
@@ -128,7 +138,9 @@ export default class AppClass extends React.Component {
         steps: this.state.steps,
         email: this.state.email,
       })
-      .then((res) => this.setState({ message: res.data.message }));
+      .then((res) => this.setState({ message: res.data.message }))
+      .catch((err) => this.setState({ message: err.response.data.message }));
+    this.setState({ email: initialEmail });
   };
 
   render() {
@@ -137,7 +149,10 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">{this.getXYMessage()}</h3>
-          <h3 id="steps">You moved {this.state.steps} times</h3>
+          <h3 id="steps">
+            You moved {this.state.steps}{" "}
+            {this.state.steps === 1 ? "time" : "times"}
+          </h3>
         </div>
         <div id="grid">
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
